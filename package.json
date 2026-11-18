@@ -28,5 +28,6 @@
     "jsqr": "^1.4.0",
     "tailwindcss": "^4.3.2",
     "typescript": "^5.9.3"
-  }
+  },
+  "type": "module"
 }
