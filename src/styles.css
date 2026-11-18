@@ -1,94 +1,11 @@
 @import "tailwindcss";
+@import "@adityavhlvy/design-system/tokens.css";
 
 @source "../node_modules/@adityavhlvy/design-system/dist";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
-@theme inline {
-  --color-paper: var(--paper);
-  --color-sunk: var(--sunk);
-  --color-ink: var(--ink);
-  --color-mute: var(--mute);
-  --color-line: var(--line);
-  --color-sea: var(--sea);
-  --color-on-sea: var(--on-sea);
-
-  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-}
-
-/* Same two neutrals and one accent as the portfolio. The QR itself always
-   keeps its own high-contrast palette. */
-:root,
-[data-theme="light"] {
-  --paper: #eceee9;
-  --sunk: #e1e4de;
-  --ink: #121518;
-  --mute: #4a5058;
-  --line: #c6cbc3;
-  --sea: #1f3fd1;
-  --on-sea: #ffffff;
-  color-scheme: light;
-}
-
-[data-theme="dark"] {
-  --paper: #0e1113;
-  --sunk: #161b1e;
-  --ink: #e7e9e4;
-  --mute: #9aa19b;
-  --line: #283034;
-  --sea: #8098ff;
-  --on-sea: #0e1113;
-  color-scheme: dark;
-}
-
-@layer base {
-  html {
-    background: var(--paper);
-    color: var(--ink);
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-  }
-  body {
-    font-family: var(--font-sans);
-    font-variation-settings: "wdth" 100;
-    min-height: 100dvh;
-    overflow-x: clip;
-  }
-  ::selection {
-    background: var(--sea);
-    color: var(--on-sea);
-  }
-  :focus-visible {
-    outline: 2px solid var(--sea);
-    outline-offset: 3px;
-  }
-  img {
-    max-width: 100%;
-  }
-  h1,
-  h2,
-  h3 {
-    text-wrap: balance;
-  }
-  p,
-  li {
-    text-wrap: pretty;
-  }
-}
-
 @layer components {
-  .display {
-    font-variation-settings: "wdth" 118;
-    font-weight: 760;
-    letter-spacing: -0.035em;
-    line-height: 0.96;
-  }
+  /* The shared label is mixed case. The tool's data labels are uppercase. */
   .label {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    line-height: 1.2;
-    color: var(--mute);
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
@@ -97,49 +14,5 @@
   .qr-plate {
     background: #ffffff;
     box-shadow: 0 0 0 1px var(--line);
-  }
-}
-
-/* The AVN mark, shared with the portfolio shell. */
-@keyframes avn-draw {
-  from {
-    stroke-dashoffset: 1;
-  }
-}
-@keyframes avn-load {
-  from {
-    stroke-dashoffset: 1.4;
-  }
-  to {
-    stroke-dashoffset: -1;
-  }
-}
-.avn-mark {
-  transition: transform 220ms var(--ease-out-quint);
-}
-.group:active .avn-mark {
-  transform: scale(0.94);
-}
-.avn-mark.is-arriving .avn-trace {
-  stroke-dasharray: 1;
-  animation: avn-draw 720ms var(--ease-out-quint) 80ms both;
-}
-.avn-mark.is-arriving .avn-wave,
-.avn-mark.is-replaying .avn-wave,
-.group:is(:hover, :focus-visible) .avn-wave {
-  stroke-dasharray: 1;
-  animation: avn-draw 640ms var(--ease-out-quint) both;
-}
-.avn-mark.is-arriving .avn-wave {
-  animation-delay: 520ms;
-}
-.avn-load {
-  stroke-dasharray: 0.4 1.6;
-  animation: avn-load 1.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-}
-@media (prefers-reduced-motion: reduce) {
-  .avn-load {
-    animation: none !important;
-    stroke-dasharray: none;
   }
 }
