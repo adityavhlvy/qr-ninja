@@ -4,6 +4,14 @@
   "framework": null,
   "rewrites": [
     {
+      "source": "/tools/qr",
+      "destination": "/"
+    },
+    {
+      "source": "/tools/qr/:path*",
+      "destination": "/:path*"
+    },
+    {
       "source": "/q/:slug",
       "destination": "/api/q?slug=:slug"
     },
