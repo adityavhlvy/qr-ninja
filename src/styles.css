@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@source "../node_modules/@adityavhlvy/design-system/dist";
+
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme inline {
@@ -95,5 +97,49 @@
   .qr-plate {
     background: #ffffff;
     box-shadow: 0 0 0 1px var(--line);
+  }
+}
+
+/* The AVN mark, shared with the portfolio shell. */
+@keyframes avn-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes avn-load {
+  from {
+    stroke-dashoffset: 1.4;
+  }
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+.avn-mark {
+  transition: transform 220ms var(--ease-out-quint);
+}
+.group:active .avn-mark {
+  transform: scale(0.94);
+}
+.avn-mark.is-arriving .avn-trace {
+  stroke-dasharray: 1;
+  animation: avn-draw 720ms var(--ease-out-quint) 80ms both;
+}
+.avn-mark.is-arriving .avn-wave,
+.avn-mark.is-replaying .avn-wave,
+.group:is(:hover, :focus-visible) .avn-wave {
+  stroke-dasharray: 1;
+  animation: avn-draw 640ms var(--ease-out-quint) both;
+}
+.avn-mark.is-arriving .avn-wave {
+  animation-delay: 520ms;
+}
+.avn-load {
+  stroke-dasharray: 0.4 1.6;
+  animation: avn-load 1.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .avn-load {
+    animation: none !important;
+    stroke-dasharray: none;
   }
 }

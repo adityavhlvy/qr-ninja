@@ -6,42 +6,35 @@ import type { QrStyle } from "../shared/types";
 import { DEFAULT_STYLE } from "../shared/types";
 import { renderQr } from "../shared/qr";
 import { isWebUrl } from "../shared/validate";
-import { useTheme } from "./lib/theme";
 import { addHistory, clearHistory, readHistory } from "./lib/history";
 import type { Entry } from "./lib/history";
-import { BASE_PATH } from "./lib/basePath";
+import { Footer, Header } from "@adityavhlvy/design-system";
+import type { RenderLink } from "@adityavhlvy/design-system";
 import { useSvgUrl } from "./lib/qrImage";
+import { channels as siteChannels, profile as siteProfile } from "./site";
 import { History } from "./ui/History";
 import { PresetForm } from "./ui/PresetForm";
 import { Preview } from "./ui/Preview";
 import { ShortLink } from "./ui/ShortLink";
 import { StylePanel } from "./ui/StylePanel";
-import { buttonClass, chipClass, panelClass } from "./ui/controls";
+import { chipClass, panelClass } from "./ui/controls";
 
 type Outcome =
   | { kind: "empty" }
   | { kind: "error"; message: string }
   | { kind: "ok"; svg: string; modules: number; version: number };
 
-function Mark() {
-  return (
-    <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true" className="shrink-0">
-      <rect x="3" y="3" width="10" height="10" fill="currentColor" />
-      <rect x="6.5" y="6.5" width="3" height="3" fill="var(--paper)" />
-      <rect x="19" y="3" width="10" height="10" fill="currentColor" />
-      <rect x="22.5" y="6.5" width="3" height="3" fill="var(--paper)" />
-      <rect x="3" y="19" width="10" height="10" fill="currentColor" />
-      <rect x="6.5" y="22.5" width="3" height="3" fill="var(--paper)" />
-      <rect x="17" y="17" width="4" height="4" fill="var(--sea)" />
-      <rect x="23" y="17" width="3" height="3" fill="currentColor" />
-      <rect x="17" y="24" width="3" height="3" fill="currentColor" />
-      <rect x="24" y="24" width="5" height="5" fill="currentColor" />
-    </svg>
-  );
-}
+const SITE_ORIGIN = (import.meta.env.PUBLIC_BASE_URL ?? "https://adityavhlvy.vercel.app").replace(/\/+$/, "");
+
+const renderLink: RenderLink = ({ to, className, children, onClick, ...rest }) => (
+  <a href={`${SITE_ORIGIN}${to}`} className={className} onClick={onClick} {...rest}>
+    {children}
+  </a>
+);
+
+const openSearch = () => window.location.assign(`${SITE_ORIGIN}/?palette=open`);
 
 export default function App() {
-  const { theme, toggle } = useTheme();
   const [presetId, setPresetId] = useState<PresetId>("url");
   const [allValues, setAllValues] = useState<Partial<Record<PresetId, Record<string, string>>>>({});
   const [style, setStyle] = useState<QrStyle>(DEFAULT_STYLE);
@@ -96,29 +89,9 @@ export default function App() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 border-b border-line bg-paper/90 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-4 px-5 md:px-10">
-          <a href={`${BASE_PATH}/`} className="flex items-center gap-3 text-ink">
-            <Mark />
-            <span className="text-sm font-medium">QR Ninja</span>
-          </a>
-          <div className="flex items-center gap-1 sm:gap-3">
-            <a href="https://adityavhlvy.vercel.app" className="hidden text-sm text-mute transition-colors hover:text-ink sm:inline">
-              Portfolio
-            </a>
-            <button
-              type="button"
-              className={buttonClass("outline")}
-              onClick={toggle}
-              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
-            >
-              {theme === "dark" ? "Light" : "Dark"}
-            </button>
-          </div>
-        </div>
-      </header>
+      <Header activePath="/tools/qr" onSearch={openSearch} renderLink={renderLink} />
 
-      <main className="mx-auto max-w-[1440px] px-5 pb-24 md:px-10">
+      <main className="mx-auto max-w-[1440px] px-5 pt-16 pb-24 md:px-10">
         <section className="pt-12 pb-10 md:pt-16">
           <p className="label">Tool</p>
           <h1 className="display mt-4 max-w-[16ch] text-[clamp(2.6rem,6vw,5rem)]">QR codes that scan.</h1>
@@ -197,20 +170,7 @@ export default function App() {
         </section>
       </main>
 
-      <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-3 px-5 py-8 text-sm text-mute md:px-10">
-          <p>
-            QR Ninja by{" "}
-            <a
-              href="https://adityavhlvy.vercel.app"
-              className="text-ink underline decoration-sea/50 underline-offset-4 hover:decoration-sea"
-            >
-              Aditya Vahlevy Nugraha
-            </a>
-          </p>
-          <p className="font-mono text-xs">No account, no tracking on generated codes.</p>
-        </div>
-      </footer>
+      <Footer profile={siteProfile} channels={siteChannels} renderLink={renderLink} />
     </>
   );
 }
