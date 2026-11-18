@@ -5,6 +5,7 @@ import type { DotStyle, Ecc } from "../shared/types";
 import { isHexColor } from "../shared/validate";
 
 function integer(value: string | null, fallback: number, min: number, max: number): number {
+  if (value === null || value.trim() === "") return fallback;
   const parsed = Number(value);
   if (!Number.isInteger(parsed)) return fallback;
   return Math.min(max, Math.max(min, parsed));
