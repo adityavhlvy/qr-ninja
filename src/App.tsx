@@ -9,6 +9,7 @@ import { isWebUrl } from "../shared/validate";
 import { useTheme } from "./lib/theme";
 import { addHistory, clearHistory, readHistory } from "./lib/history";
 import type { Entry } from "./lib/history";
+import { BASE_PATH } from "./lib/basePath";
 import { useSvgUrl } from "./lib/qrImage";
 import { History } from "./ui/History";
 import { PresetForm } from "./ui/PresetForm";
@@ -97,7 +98,7 @@ export default function App() {
     <>
       <header className="sticky top-0 z-30 border-b border-line bg-paper/90 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-4 px-5 md:px-10">
-          <a href="/" className="flex items-center gap-3 text-ink">
+          <a href={`${BASE_PATH}/`} className="flex items-center gap-3 text-ink">
             <Mark />
             <span className="text-sm font-medium">QR Ninja</span>
           </a>

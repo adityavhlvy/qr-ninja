@@ -1,4 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
+import { BASE_PATH } from "../lib/basePath";
 import { useCopy } from "../lib/qrImage";
 import { buttonClass, fieldClass, panelClass } from "./controls";
 
@@ -8,8 +9,7 @@ interface Props {
   onUse: (url: string) => void;
 }
 
-// Set at build time when the app is proxied under the portfolio.
-const API_PATH = `${(import.meta.env.PUBLIC_BASE_PATH ?? "").replace(/\/+$/, "")}/api/links`;
+const API_PATH = `${BASE_PATH}/api/links`;
 
 interface Created {
   slug: string;
