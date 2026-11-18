@@ -8,7 +8,8 @@
     "build": "rsbuild build",
     "preview": "rsbuild preview",
     "typecheck": "tsc --noEmit",
-    "check": "bun run scripts/check.ts"
+    "check": "bun run scripts/check.ts && bun run scripts/check-design.ts",
+    "check:design": "bun run scripts/check-design.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",

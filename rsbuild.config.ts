@@ -1,15 +1,21 @@
-import { defineConfig } from "@rsbuild/core";
+import { defineConfig, loadEnv } from "@rsbuild/core";
 import { pluginReact } from "@rsbuild/plugin-react";
 
-// The API and the redirect live in /api and only run under `vercel dev`.
-// During local frontend work they proxy to a second terminal on port 3001.
+// When the app is served through the portfolio at /tools/qr, every asset and
+// API call carries this prefix. It stays empty in local dev, so the app runs at
+// the root. Set PUBLIC_BASE_PATH=/tools/qr on Vercel.
+const { publicVars, rawPublicVars } = loadEnv({ prefixes: ["PUBLIC_"] });
+const basePath = (rawPublicVars.PUBLIC_BASE_PATH ?? "").replace(/\/+$/, "");
+
 export default defineConfig({
   plugins: [pluginReact()],
   source: {
     entry: { index: "./src/main.tsx" },
+    define: publicVars,
   },
   html: {
     template: "./index.html",
+    favicon: "./public/favicon.svg",
   },
   server: {
     port: 3000,
@@ -20,6 +26,7 @@ export default defineConfig({
     },
   },
   output: {
+    assetPrefix: basePath ? `${basePath}/` : undefined,
     distPath: { root: "dist" },
     cleanDistPath: true,
   },

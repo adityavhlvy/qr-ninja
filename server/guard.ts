@@ -17,13 +17,36 @@ export function hashIp(req: VercelRequest): string | null {
   return createHash("sha256").update(`${salt}:${raw}`).digest("hex").slice(0, 32);
 }
 
-/** Link creation is only called by this app's own page, so require its origin. */
+/**
+ * Link creation is only called by the app's own page. Through the portfolio
+ * proxy the origin host and the function host differ, so the public origin is
+ * allowed explicitly.
+ */
 export function sameOrigin(req: VercelRequest): boolean {
   const origin = req.headers.origin;
   if (!origin) return false;
+
+  let host: string;
   try {
-    return new URL(origin).host === req.headers.host;
+    host = new URL(origin).host;
   } catch {
     return false;
   }
+
+  const allowed = new Set<string>();
+  if (req.headers.host) allowed.add(req.headers.host);
+
+  const forwarded = req.headers["x-forwarded-host"];
+  if (typeof forwarded === "string") allowed.add(forwarded.split(",")[0].trim());
+
+  const configured = process.env.PUBLIC_BASE_URL;
+  if (configured) {
+    try {
+      allowed.add(new URL(configured).host);
+    } catch {
+      // A malformed value is ignored rather than opening the check.
+    }
+  }
+
+  return allowed.has(host);
 }

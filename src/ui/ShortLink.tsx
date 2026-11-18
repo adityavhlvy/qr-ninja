@@ -8,6 +8,9 @@ interface Props {
   onUse: (url: string) => void;
 }
 
+// Set at build time when the app is proxied under the portfolio.
+const API_PATH = `${(import.meta.env.PUBLIC_BASE_PATH ?? "").replace(/\/+$/, "")}/api/links`;
+
 interface Created {
   slug: string;
   url: string;
@@ -31,7 +34,7 @@ export function ShortLink({ suggestion, onUse }: Props) {
     setBusy(true);
     setError(null);
     try {
-      const response = await fetch("/api/links", {
+      const response = await fetch(API_PATH, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ target: url }),

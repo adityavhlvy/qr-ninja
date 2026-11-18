@@ -66,10 +66,24 @@ bun run check
 
 `check` decodes the generated SVG with jsQR for every module style at two
 resolutions, including a high-version code with several alignment patterns and
-a code with a centre logo. It also tests payload escaping and the short-link
-target guard. Run it after touching `shared/`.
+a code with a centre logo. It also tests payload escaping, the short-link
+target guard, and design token drift.
+
+## Design system
+
+The portfolio is the source of truth. `src/styles.css` copies its colour
+tokens, font stacks, `.display`, and `.label`; `src/ui/controls.ts` mirrors its
+control classes. `bun run check` compares those values against
+`kura-ninja-client/src/styles.css` and fails on drift.
+
+If the portfolio is not checked out beside this repo, set `KURA_CLIENT_PATH` to
+its directory. Otherwise the check reads the `dev` branch from GitHub. Only
+tokens and type rules are enforced; layout classes stay specific to this app.
 
 ## API
+
+Public form: `https://adityavhlvy.vercel.app/tools/qr/api/qr`. On the
+deployment itself the same handler answers at `/api/qr`.
 
 `GET /api/qr`
 
@@ -84,6 +98,7 @@ target guard. Run it after touching `shared/`.
 
 ```bash
 curl -o code.svg 'http://localhost:3000/api/qr?text=https%3A%2F%2Fexample.com&ecc=M&style=dots'
+curl -o code.svg 'https://adityavhlvy.vercel.app/tools/qr/api/qr?text=hello&ecc=M&style=dots'
 ```
 
 `POST /api/links` with `{ "target": "https://..." }` returns
@@ -96,22 +111,42 @@ Unknown and expired slugs return `404`.
 ## Deploy
 
 Push this folder as its own repository, then create a Vercel project from it.
-The build needs no `rootDirectory` override. Set `DATABASE_URL` and
-`IP_HASH_SALT` in the project's environment variables, then deploy.
+The build needs no `rootDirectory` override. Name the project `adityavhlvy-qr`
+so the proxy destination stays stable. Set these environment variables, then
+deploy:
+
+| Variable | Value |
+| --- | --- |
+| `DATABASE_URL` | Neon connection string |
+| `IP_HASH_SALT` | Any long random string |
+| `PUBLIC_BASE_PATH` | `/tools/qr` |
+| `PUBLIC_BASE_URL` | `https://adityavhlvy.vercel.app` |
 
 `vercel.json` sends `/q/:slug` to the function and every other path to
 `index.html`. Vercel resolves filesystem and function routes before the
 catch-all, so `/api/*` is never swallowed.
 
-### Domain
+### One domain, two projects
 
-`adityavhlvy.vercel.app` is a project's default domain, not a domain you own, so
-a subdomain of it (`qr.adityavhlvy.vercel.app`) cannot be created. This project
-gets its own default domain, for example `qr-ninja.vercel.app`.
+Vercel binds one hostname to one project, so two projects cannot share
+`adityavhlvy.vercel.app`. Instead the portfolio project proxies the tool:
 
-A real subdomain such as `qr.adityavhlvy.com` needs a domain you control. Add it
-in Vercel under Settings, Domains, then point a CNAME at `cname.vercel-dns.com`.
-No code changes are needed.
+```
+adityavhlvy.vercel.app/tools/qr/*  ->  adityavhlvy-qr.vercel.app/*
+adityavhlvy.vercel.app/q/:slug     ->  adityavhlvy-qr.vercel.app/api/q/:slug
+```
+
+The rewrites live in `kura-ninja-client/vercel.json`, before its SPA catch-all.
+The browser stays on the portfolio domain, and printed short links stay short
+at `https://adityavhlvy.vercel.app/q/<slug>`.
+
+This is why the build needs `PUBLIC_BASE_PATH`. Assets and API calls are
+prefixed at build time. Without the prefix, the proxy would serve HTML that
+requests the portfolio's own `/static` files.
+
+A real subdomain such as `qr.adityavhlvy.com` still needs a domain you control.
+Add it in Vercel under Settings, Domains, then point a CNAME at
+`cname.vercel-dns.com`. No code changes are needed.
 
 ## Deliberate limits
 

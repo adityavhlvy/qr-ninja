@@ -6,6 +6,11 @@ import { validateTarget } from "../shared/validate";
 const PER_HOUR = 20;
 
 function baseUrl(req: VercelRequest): string {
+  // Behind the portfolio proxy the request host is the deployment, so the
+  // public origin is configured explicitly.
+  const configured = process.env.PUBLIC_BASE_URL;
+  if (configured) return configured.replace(/\/+$/, "");
+
   const protoHeader = req.headers["x-forwarded-proto"];
   const proto = (Array.isArray(protoHeader) ? protoHeader[0] : protoHeader) ?? "https";
   return `${proto}://${req.headers.host ?? "localhost:3001"}`;
