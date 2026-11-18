@@ -99,7 +99,7 @@ export default function App() {
         <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-4 px-5 md:px-10">
           <a href="/" className="flex items-center gap-3 text-ink">
             <Mark />
-            <span className="text-sm font-medium tracking-tight">QR Ninja</span>
+            <span className="text-sm font-medium">QR Ninja</span>
           </a>
           <div className="flex items-center gap-1 sm:gap-3">
             <a href="https://adityavhlvy.vercel.app" className="hidden text-sm text-mute transition-colors hover:text-ink sm:inline">
