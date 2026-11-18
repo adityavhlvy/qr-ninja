@@ -1,4 +1,4 @@
-import { db } from "./db";
+import { db } from "./db.js";
 
 const ALPHABET = "abcdefghjkmnpqrstuvwxyz23456789";
 const SLUG_LENGTH = 7;

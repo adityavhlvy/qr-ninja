@@ -1,5 +1,5 @@
 import { encode } from "uqr";
-import type { QrStyle } from "./types";
+import type { QrStyle } from "./types.js";
 
 export interface QrRender {
   svg: string;

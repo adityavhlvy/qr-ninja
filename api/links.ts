@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { countRecent, createLink } from "../server/links";
-import { hashIp, sameOrigin } from "../server/guard";
-import { validateTarget } from "../shared/validate";
+import { countRecent, createLink } from "../server/links.js";
+import { hashIp, sameOrigin } from "../server/guard.js";
+import { validateTarget } from "../shared/validate.js";
 
 const PER_HOUR = 20;
 

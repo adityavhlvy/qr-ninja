@@ -1,4 +1,4 @@
-import { validateTarget } from "./validate";
+import { validateTarget } from "./validate.js";
 
 export type PresetId = "url" | "text" | "wifi" | "vcard" | "email" | "phone" | "sms" | "geo" | "event";
 

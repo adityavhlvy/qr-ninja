@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { isSlug, resolveLink } from "../../server/links";
+import { isSlug, resolveLink } from "../../server/links.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET" && req.method !== "HEAD") return res.status(405).send("Method not allowed");

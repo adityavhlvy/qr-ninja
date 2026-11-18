@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { renderQr } from "../shared/qr";
-import { DEFAULT_STYLE, DOT_STYLES, ECC_LEVELS, MAX_MARGIN, MAX_PAYLOAD, MAX_SIZE, MIN_MARGIN, MIN_SIZE } from "../shared/types";
-import type { DotStyle, Ecc } from "../shared/types";
-import { isHexColor } from "../shared/validate";
+import { renderQr } from "../shared/qr.js";
+import { DEFAULT_STYLE, DOT_STYLES, ECC_LEVELS, MAX_MARGIN, MAX_PAYLOAD, MAX_SIZE, MIN_MARGIN, MIN_SIZE } from "../shared/types.js";
+import type { DotStyle, Ecc } from "../shared/types.js";
+import { isHexColor } from "../shared/validate.js";
 
 function integer(value: string | null, fallback: number, min: number, max: number): number {
   if (value === null || value.trim() === "") return fallback;

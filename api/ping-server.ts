@@ -1,4 +1,4 @@
-import { isSlug } from "../server/links";
+import { isSlug } from "../server/links.js";
 
 export default function handler(_req: unknown, res: { status: (code: number) => { json: (body: unknown) => void } }) {
   res.status(200).json({ ok: isSlug("abcdefg"), where: "server" });
