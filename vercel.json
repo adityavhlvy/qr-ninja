@@ -3,7 +3,13 @@
   "outputDirectory": "dist",
   "framework": null,
   "rewrites": [
-    { "source": "/q/:slug", "destination": "/api/q/:slug" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/q/:slug",
+      "destination": "/api/q?slug=:slug"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
