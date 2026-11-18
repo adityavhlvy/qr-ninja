@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Ninja | QR codes that scan, by adityavhlvy</title>
+  <meta
+    name="description"
+    content="Make a QR code for a link, Wi-Fi, contact card, event, or plain text. Custom colours and modules, PNG or SVG download, and short links with scan counts."
+  />
+  <meta name="author" content="Aditya Vahlevy Nugraha" />
+  <meta name="theme-color" content="#eceee9" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0e1113" media="(prefers-color-scheme: dark)" />
+  <meta property="og:title" content="QR Ninja | QR codes that scan" />
+  <meta
+    property="og:description"
+    content="Nine payload types, custom colours and modules, PNG or SVG, and short links with scan counts."
+  />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100..125,300..800;1,100..125,300..800&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <script>
+    try {
+      var t = localStorage.getItem("theme");
+      if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.dataset.theme = t;
+    } catch (e) {
+      document.documentElement.dataset.theme = "light";
+    }
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>

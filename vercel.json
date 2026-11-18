@@ -1,0 +1,9 @@
+{
+  "buildCommand": "bun run build",
+  "outputDirectory": "dist",
+  "framework": null,
+  "rewrites": [
+    { "source": "/q/:slug", "destination": "/api/q/:slug" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
