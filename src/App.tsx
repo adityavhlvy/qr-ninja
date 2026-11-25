@@ -17,7 +17,8 @@ import { PresetForm } from "./ui/PresetForm";
 import { Preview } from "./ui/Preview";
 import { ShortLink } from "./ui/ShortLink";
 import { StylePanel } from "./ui/StylePanel";
-import { chipClass, panelClass } from "./ui/controls";
+import { chipClass, panelClass, buttonClass } from "./ui/controls";
+import { BASE_PATH } from "./lib/basePath";
 
 type Outcome =
   | { kind: "empty" }
@@ -167,6 +168,17 @@ export default function App() {
               Short links resolve at <code className="font-mono text-sm text-ink">/q/&lt;slug&gt;</code>.
             </p>
           </div>
+        </section>
+
+        <section className="mt-10 border-t border-line pt-10">
+          <h2 className="label">Damage Lab</h2>
+          <p className="mt-3 max-w-[62ch] text-mute">
+            Want to know how much of a code you can lose before it stops scanning? The damage lab brushes, folds, and
+            covers a code, then re-decodes it in this browser and shows the error correction budget draining.
+          </p>
+          <a href={`${BASE_PATH}/damage`} className={`${buttonClass("outline")} mt-4`}>
+            Open the damage lab
+          </a>
         </section>
       </main>
 
