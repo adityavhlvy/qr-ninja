@@ -26,7 +26,7 @@ if (existsSync(packagePath)) {
   for (const token of TOKENS) check(`${token} defined`, css.includes(`${token}:`));
 }
 
-const roots = [process.env.KURA_CLIENT_PATH, "..", "../kura-ninja-client", "../../kura-ninja-client"].filter(
+const roots = [process.env.KURA_CLIENT_PATH, "../../../kura-ninja-client", "../../kura-ninja-client"].filter(
   (root): root is string => Boolean(root),
 );
 for (const root of roots) {
